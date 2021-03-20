@@ -28,6 +28,7 @@ void main_init() {
     start_power_simulation(36866); // 36866 = 294930 us = 9 frames
 #endif
 
+// ksh> P3.0 : out & high, P3.1 : out & low, P3.x : in 
 #if defined(LOGIC)
     // output pins for logic analyzer
     P3DIR |= BIT0|BIT1;
@@ -128,12 +129,18 @@ int main(void)
 
 
 
+// ksh> TAxCCTLn Register : Timer_Ax Capture/Compare Control n Register 
+// ksh> TAxCCRn Register : Timer_Ax Capture/Compare n Register  
+// ksh> TAxEX0 Register : Timer_Ax Expansion 0 Register, select the devider for the input clock.
+// ksh> TAxCTL Register : Timer_Ax Control Register
 void desync_init() {
-    TA1CCTL0 = CCIE;                        // TACCR0 interrupt enabled
+    TA1CCTL0 = CCIE;                        // TACCR0 interrupt enabled   // ksh> capture/compare interrupt enable
     TA1CCR0 = 0; // don't start timer yet
-    TA1EX0 = TAIDEX_1; // pre-divider 2
+    TA1EX0 = TAIDEX_1; // pre-divider 2   
 //    TA1CTL = TACLR | TASSEL__SMCLK | MC__UP | ID_3;   // SMCLK, counting up, divider 8
     TA1CTL = TACLR | TASSEL__ACLK | MC__UP;   // ACLK, counting up
+    // ksh> TACLR : Timer_A clear
+    // ksh> MC filed <- MC__UP : Timer counts up to TAxCCR0
 }
 
 unsigned int get_random_bit() {
@@ -156,10 +163,11 @@ unsigned int get_random_int() {
     return random_int;
 }
 
+// ksh> TAxCCRn Register : Timer_Ax Capture/Compare n Register 
 void sleep_for_one_word() {
     // sleep for the time of 1 word
     mic_power_off();
-    TA1CCR0 = 13000;  // +-700 ms
+    TA1CCR0 = 13000;  // +-700 ms   // ksh> ???
 
     P3OUT &= ~BIT0;
     __bis_SR_register(LPM3_bits | GIE);
@@ -169,6 +177,7 @@ void sleep_for_one_word() {
 }
 
 
+// ksh> TAxCCRn Register : Timer_Ax Capture/Compare n Register 
 void desync() {
     /*
      * Delay recording for de-synchronization
