@@ -170,7 +170,7 @@ void sleep_for_one_word() {
     TA1CCR0 = 13000;  // +-700 ms   // ksh> ???
 
     P3OUT &= ~BIT0;
-    __bis_SR_register(LPM3_bits | GIE);
+    __bis_SR_register(LPM3_bits | GIE);   // ksh> Enter Low Power Mode 3, GIE : General Interupt Enable
     P3OUT |= BIT0; // <-- DO NOT REMOVE
 
     mic_wait_for_sound(); // will go into normal mode when wakes up.
@@ -187,10 +187,10 @@ void desync() {
     unsigned int p;
 
     while (1) {
-    p = get_random_int();
-    if (p < (66*65536)/100) {
-        return;
-    }
+    	p = get_random_int();
+    	if (p < (66*65536)/100) {
+        	return;
+    	}
 //    while (sampled_input[__randSel++] & 0x01) {
 //        if(__randSel >= SAMPLES) __randSel=0;
         // sleep for the time of 1 word
@@ -198,7 +198,7 @@ void desync() {
         TA1CCR0 = 13000;  // +-700 ms
 
         P3OUT &= ~BIT0;
-        __bis_SR_register(LPM3_bits | GIE);
+        __bis_SR_register(LPM3_bits | GIE);   // ksh> Enter Low Power Mode 3, GIE : General Interupt Enable
         P3OUT |= BIT0;
 
         mic_wait_for_sound(); // will go into normal mode when wakes up.
@@ -356,6 +356,8 @@ void ADC_config()
     P1SEL0 |= BIT3;
     P1SEL1 |= BIT3;
 
+    // ksh> ADC12CTL0 Register : ADC12_B Control 0 Register
+    // ksh> ADC12ENC : ADC12_B enable conversion, 0b is disabled 
     // Clear ENC bit to allow register settings
     ADC12CTL0 &= ~ADC12ENC;
 
@@ -385,6 +387,7 @@ void ADC_config()
     // conversion start address: MEM0
     ADC12CTL3 |= ADC12CSTARTADD_0;
 
+    // ksh> ADC12MCTLx Register (x = 0 to 31) : ADC12_B Conversion Memory Control x Register (x = 0 to 31)
     // MEM0 control register
     // reference select: VR+ = AVCC (3V), VR- = AVSS (0V)
     // input channel select: A3
