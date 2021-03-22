@@ -11,7 +11,7 @@
 
 
 __nv int __noise[] = {
-#include "../mspPwrSim/pattern_on.txt"
+#include "../mspPwrSim/pattern_on.txt"    // ksh> it includes 200 values of noise(I guess?)
 };
 
 __nv unsigned int __noiseSel = 0;
@@ -28,9 +28,11 @@ void start_power_simulation(unsigned int interval)
     rstInterval = interval;
 
     if(__noiseSel >= 200) {
-       __noiseSel=0;
+       __noiseSel=0;        // ksh> maximum index of array __noise[] is 199
     }
 
+    // ksh> TAxCCTLn Register : Timer_Ax Capture/Compare Control n Register
+    // ksh> TA0CTL Register : Timer_Ax Control Register
     TA0CCTL0 = CCIE;                          // TACCR0 interrupt enabled
     TA0CCR0 =rstInterval+__noise[__noiseSel]; // comment: noise is amplified as well by divider
     TA0CTL = TASSEL__SMCLK | MC__UP | ID_3;   // SMCLK, counting up, divider 8
@@ -43,7 +45,7 @@ void switch_timer_to_short(){
     int newcounter;
     //stop timer
     TA0CTL = MC__STOP;
-    TA0R = 0;
+    TA0R = 0;           // ksh> Timer_Ax Counter Register
     //read timecounter and set new timer
     newcounter = timecounter / SLEEP_FACTOR;
     TA0CCR0 = (timecounter % SLEEP_FACTOR) * ((rstInterval/SLEEP_FACTOR) ); // How short timer depends on time left in long timer
