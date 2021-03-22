@@ -6,7 +6,7 @@ void endpoints_power_init() {
      */
     i_nv = 0;
     start = 0;
-    end = (SAMPLES/FRAMESIZE);
+    end = (SAMPLES/FRAMESIZE);          // ksh> SAMPLES = NUM_FRAME*FRAMESIZE, end = NUM_FRAME = 9
     lower = 0;
     upper = 0;
 }
@@ -24,7 +24,7 @@ int endpoints_power(uint16_t *buf, fingerprint *fp, int step) {
     uint16_t j;
     uint32_t sum = 0;
     const uint32_t treshold = 1500/step;//1735;         // average in Patrick's apartment
-    const uint32_t upper_treshold = 6900/step;
+    const uint32_t upper_treshold = 6900/step;          // ksh> I think it's a threshold that peak of sound should be greater than. 
 
 
     for ( ; i_nv<(SAMPLES/FRAMESIZE); i_nv++) {
