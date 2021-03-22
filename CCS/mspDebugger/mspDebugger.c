@@ -7,13 +7,14 @@ void uart_init()
     P2SEL1 |= BIT0 | BIT1;                    // USCI_A0 UART operation
     P2SEL0 &= ~(BIT0 | BIT1);
 
-    UCA0CTLW0 = UCSWRST;
+    // ksh> UCAxCTLW0 Register : eUSCI_Ax Control Word Register 0
+    UCA0CTLW0 = UCSWRST;            // ksh> reset
     UCA0CTLW0 |= UCSSEL__SMCLK;
-    UCA0BR0 = 8;
-    UCA0MCTLW |= 0xD600;
+    UCA0BR0 = 8;                    // ksh> eUSCI_A baud rate 0
+    UCA0MCTLW |= 0xD600;            // ksh> eUSCI_Ax Modulation Control Word Register.   oversampling model disabled, 
 
-    UCA0BR1 = 0;
-    UCA0CTL1 &= ~UCSWRST;
+    UCA0BR1 = 0;                
+    UCA0CTL1 &= ~UCSWRST;           // ksh> probably frequency is 115200Hz
 }
 
 void uart_sendChar(uint8_t c)
