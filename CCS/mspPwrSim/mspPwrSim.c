@@ -2,7 +2,7 @@
 #include "mspDebugger.h"
 
 #ifndef __nv
-#define __nv  __attribute__((section(".nv_vars")))
+#define __nv  __attribute__((section(".nv_vars")))      // ksh> __nv is not on 'text' section but ".nv_vars" section 
 #endif
 
 // off-time and sleep-time expressed in on-time
@@ -11,7 +11,7 @@
 
 
 __nv int __noise[] = {
-#include "../mspPwrSim/pattern_on.txt"    // ksh> it includes 200 values of noise(I guess?)
+#include "../mspPwrSim/pattern_on.txt"    // ksh> it includes 200 values of "noise(I guess?)"
 };
 
 __nv unsigned int __noiseSel = 0;
