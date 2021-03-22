@@ -38,7 +38,7 @@ void mic_wait_for_sound() {
     P5OUT |= BIT0 | BIT2;
 
 #if defined(SIMULATION)
-    __bis_SR_register(LPM0_bits | GIE);
+    __bis_SR_register(LPM0_bits | GIE); // ksh> Enter Low Power Mode 0 & interrupt
     __no_operation();                   // For debugger
 #else
     //sleep
