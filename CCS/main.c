@@ -25,7 +25,7 @@ void main_init() {
     mic_wake_up_init();
 
 #if defined(SIMULATION)
-    start_power_simulation(36866); // 36866 = 294930 us = 9 frames
+    start_power_simulation(36866); // 36866 = 294930 us = 9 frames	// ksh> use TA0CCTL0
 #endif
 
 // ksh> P3.0 : out & high, P3.1 : out & low, P3.x : in 
@@ -37,7 +37,7 @@ void main_init() {
 #endif
 
 #if defined(UART)
-    uart_init();
+    uart_init();		// ksh> use UCA0CTLW0
 #endif
 
 #if defined(DESYNC)
@@ -79,8 +79,8 @@ int main(void)
             #endif
 
             counter = 0;
-            ADC_config();
-            while(counter < SAMPLES);
+            ADC_config();			// ksh> setting system for ADC
+            while(counter < SAMPLES);		// ksh> ADC is running
             mic_power_off();
 
             // needed for get_fingerprints()
