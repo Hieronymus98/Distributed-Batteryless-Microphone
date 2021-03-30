@@ -45,7 +45,7 @@ void switch_timer_to_short(){
     int newcounter;
     //stop timer
     TA0CTL = MC__STOP;
-    TA0R = 0;           // ksh> Timer_Ax Counter Register
+    TA0R = 0;           // ksh> Timer_Ax Counter Register, The TAxR register is the count of Timer_A. In this case, clear count = 0.
     //read timecounter and set new timer
     newcounter = timecounter / SLEEP_FACTOR;
     TA0CCR0 = (timecounter % SLEEP_FACTOR) * ((rstInterval/SLEEP_FACTOR) ); // How short timer depends on time left in long timer
