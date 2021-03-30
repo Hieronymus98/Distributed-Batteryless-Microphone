@@ -26,6 +26,7 @@ void main_init() {
 
 #if defined(SIMULATION)
     start_power_simulation(36866); // 36866 = 294930 us = 9 frames	// ksh> use TA0CCTL0
+    // ksh> SMCLK = 1MHz, 36866 div (1MHz/8) = 0.294928s = 294930 us
 #endif
 
 // ksh> P3.0 : out & high, P3.1 : out & low, P3.x : in 
